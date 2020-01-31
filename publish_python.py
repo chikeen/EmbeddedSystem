@@ -1,7 +1,8 @@
 import smbus
 import time
 import paho.mqtt.client as mqtt
-
+import datetime
+import json
 bus = smbus.SMBus(1)
 i2c_addr = 0x48  # our slave address
 
@@ -29,7 +30,12 @@ client.connect("test.mosquitto.org", port=1883)
 while(True):
     val_swapped = bus.read_word_data(i2c_addr, 0x00)
     val = (val_swapped & 0xFF) << 8 | (val_swapped >> 8)
-    client.publish("IC.embedded/Faraday", val)
+    val = int((abs(val - 800) / 21200) * 2000)
+    time_now = datetime.utcnow()
+    my_dict = {"value": val, "time": time_now}
+    packet_json = json.dumps(my_dict)
+    client.publish("IC.embedded/Faraday", packet_json)
+
     time.sleep(1)
 
 print("Done")

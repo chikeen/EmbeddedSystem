@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt
 import time
+import json
 #import ssl
 
 
@@ -9,13 +10,8 @@ def connect_me(client, userdata, flags, rc):
 
 
 def message_me(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
-
-    if msg.payload == "Hello":
-        print("Received message #1, do something")
-
-    if msg.payload == "World!":
-        print("Received message #2, do something else")
+    my_json = json.loads(msg.payload)
+    print(my_json)
 
 
 client = mqtt.Client()
