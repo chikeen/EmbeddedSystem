@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 import time
-import ssl
+#import ssl
 
 
 def connect_me(client, userdata, flags, rc):
@@ -22,10 +22,10 @@ client = mqtt.Client()
 client.on_connect = connect_me
 client.on_message = message_me
 
-client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",
-               keyfile="client.key", tls_version=ssl.PROTOCOL_TLSv1_2)
+# client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",
+#              keyfile="client.key", tls_version=ssl.PROTOCOL_TLSv1_2)
 
-client.connect("test.mosquitto.org", 8884, 60)
+client.connect("test.mosquitto.org", 1883, 60)
 
 # Process network traffic and dispatch callbacks. This will also handle
 # reconnecting. Check the documentation at
