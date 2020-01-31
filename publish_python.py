@@ -31,7 +31,7 @@ while(True):
     val_swapped = bus.read_word_data(i2c_addr, 0x00)
     val = (val_swapped & 0xFF) << 8 | (val_swapped >> 8)
     val = int((abs(val - 800) / 21200) * 2000)
-    time_now = datetime.now()
+    time_now = datetime.datetime.utcnow()
     my_dict = {"value": val, "time": time_now}
     packet_json = json.dumps(my_dict)
     client.publish("IC.embedded/Faraday", packet_json)
