@@ -3,6 +3,7 @@ import time
 import paho.mqtt.client as mqtt
 import datetime
 import json
+import ssl
 bus = smbus.SMBus(1)
 i2c_addr = 0x48  # our slave address
 
@@ -23,14 +24,16 @@ bus.write_byte(i2c_addr, 0)
 
 client = mqtt.Client()
 
+client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",
+               keyfile="client.key", tls_version=ssl.PROTOCOL_TLSv1_2)
 
-client.connect("test.mosquitto.org", port=1883)
+client.connect("test.mosquitto.org", port=8884)
 
 
 while(True):
     val_swapped = bus.read_word_data(i2c_addr, 0x00)
     val = (val_swapped & 0xFF) << 8 | (val_swapped >> 8)
-    val = int((abs(val - 800) / 21200) * 2000)
+    val = int((abs(val - 795) / 21200) * 2000)
     time_now = datetime.datetime.utcnow().__str__()
     my_dict = {"value": val, "time": time_now}
     packet_json = json.dumps(my_dict)
