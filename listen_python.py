@@ -32,7 +32,10 @@ client.connect("test.mosquitto.org", 1883, 60)
 # https://github.com/eclipse/paho.mqtt.python
 # for information on how to use other loop*() functions
 
-client.loop_start()
-time.sleep(8)
-client.loop_stop()
-print("DONE!!!")
+client.loop_forever()
+
+
+# client.loop_start()
+# time.sleep(8)
+# client.loop_stop()
+# print("DONE!!!")
