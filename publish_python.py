@@ -8,7 +8,7 @@
 
 #import paho.mqtt.publish as publish
 import paho.mqtt.client as mqtt
-import ssl
+#import ssl
 
 
 # def log_me(client, userdata, level, buf):
@@ -17,12 +17,12 @@ import ssl
 
 client = mqtt.Client()
 #client.on_log = log_me
-client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",
-               keyfile="client.key", tls_version=ssl.PROTOCOL_TLSv1_2)
+# client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",
+#               keyfile="client.key", tls_version=ssl.PROTOCOL_TLSv1_2)
 
 
-client.connect("test.mosquitto.org", port=8884)
-client.publish("IC.embedded/Iceberg", "Hey hows it going?")
+client.connect("test.mosquitto.org", port=1883)
+client.publish("IC.embedded/Faraday", "Hey hows it going?")
 
 #import ssl
 
