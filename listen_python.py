@@ -5,7 +5,7 @@ import time
 
 def connect_me(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
-    client.subscribe("IC.embedded/Iceberg")
+    client.subscribe("IC.embedded/Faraday")
 
 
 def message_me(client, userdata, msg):
