@@ -33,7 +33,7 @@ client.connect("test.mosquitto.org", port=8884)
 while(True):
     val_swapped = bus.read_word_data(i2c_addr, 0x00)
     val = (val_swapped & 0xFF) << 8 | (val_swapped >> 8)
-    val = int((abs(val - 0) /1) * 1)
+    val = int((abs(val - 9000) /7500) * 2100)
     time_now = datetime.datetime.utcnow().__str__()
     my_dict = {"value": val, "time": time_now}
     packet_json = json.dumps(my_dict)
