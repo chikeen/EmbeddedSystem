@@ -41,7 +41,7 @@ def read_flex (i2c_addr, duration, readings_per_median=3):
 
         
 def read_compass(i2c_addr, duration, readings_per_median=1):
-    #KEEP READING PER MEDIAN TO 1 until you have support for angular wrap around (like robotics).
+    #!!! KEEP READINGS PER MEDIAN TO 1 until you have support for angular wrap around (like robotics).
     x_sum = 0
     y_sum = 0
     z_sum = 0
@@ -122,8 +122,8 @@ mode = "Home" # or Music, Sports, Sleep
 
 while(True):
 
-    flex_val = read_flex(i2c_addr_flex, 0.25, 3) # reading 1 times in 1 sec
-    compass_val = read_compass(i2c_addr_compass, 0.1, 3) # reading 1 times in 1 sec
+    flex_val = read_flex(i2c_addr_flex, 1, 3) # reading 1 times in 1 sec
+    compass_val = read_compass(i2c_addr_compass, 0.4, 3) # reading 1 times in 1 sec
     
     
     if((compass_val[2] > 63 or compass_val[2] < 40) and mode is not "Sleep"):
