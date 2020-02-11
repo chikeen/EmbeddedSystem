@@ -123,13 +123,14 @@ while(True):
     
     
     if((compass_val[2] > 63 or compass_val[2] < 40) and mode is not "Sleep"):
-        print("Mode: ", mode, "-> Sleep, compass_val= ", compass_val)
+    #    print("Mode: ", mode, "-> Sleep, compass_val= ", compass_val)
         mode = "Sleep"
     
     if((compass_val[2] <= 63 and compass_val[2] >= 40) and mode is "Sleep"):
-        print("Mode: ", mode, "-> Home, compass_val= ", compass_val)
+    #    print("Mode: ", mode, "-> Home, compass_val= ", compass_val)
         mode = "Home"
-        
+
+    print("Mode: ", mode, " compass_val = ", compass_val)
         
     # packaging json payload
     time_now = datetime.datetime.utcnow().__str__()
