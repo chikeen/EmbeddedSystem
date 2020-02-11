@@ -41,8 +41,11 @@ def read_flex (i2c_addr, duration, readings_per_median=3):
         
 
         
-def read_compass(i2c_addr, duration, readings_per_median=1):
-    #!!! KEEP READINGS PER MEDIAN TO 1 until you have support for angular wrap around (like robotics).
+def read_compass(i2c_addr, duration, readings_per_median=3):
+
+    x_sum = 0
+    y_sum = 0 
+    z_sum = 0
 
     for i in range(readings_per_median):
 
@@ -95,13 +98,20 @@ def read_compass(i2c_addr, duration, readings_per_median=1):
 #         print(data)
 #         print("Magnetice Field (x, y, z) = ", xMag, yMag, zMag)
 #         print(heading + 330)
-
+        x_sum += xMag
+        y_sum += yMag
+        z_sum += zMag
         time.sleep(duration/ readings_per_median)
+
+    x = x_sum/readings_per_median
+    y = y_sum/readings_per_median
+    z = z_sum/readings_per_median
+
         #no_of_reading = no_of_reading - 1
-    print("xMag: ",xMag)
-    print("yMag: ",yMag)
-    print("zMag: ",zMag)
-    return (xMag, yMag, zMag)
+    print("xMag: ",x)
+    print("yMag: ",y)
+    print("zMag: ",z)
+    return (x, y, z)
  
 
 # Setting mqtt connection
@@ -119,7 +129,7 @@ mode = "Home" # or Music, Sports, Sleep
 while(True):
 
     flex_val = read_flex(i2c_addr_flex, 0.5, 3) # reading 1 times in 1 sec
-    compass_val = read_compass(i2c_addr_compass, 0.4, 1) # reading 1 times in 1 sec
+    compass_val = read_compass(i2c_addr_compass, 0.9, 3) # reading 1 times in 1 sec
     
     
     if((compass_val[2] > 63 or compass_val[2] < 40) and mode is not "Sleep"):
