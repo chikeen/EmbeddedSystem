@@ -145,7 +145,7 @@ while(True):
     
     client.publish("IC.embedded/Faraday", packet_json)
 
-    time.sleep(1)
+    #time.sleep(1)
 
 print("Done")
 
