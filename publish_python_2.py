@@ -33,6 +33,7 @@ def read_flex (i2c_addr, duration, readings_per_median=3):
         val = int((abs(val - 9000) /7500) * 2100) #scaling sensor data
         #print ("flex reading: ", val)
         time.sleep(duration/readings_per_median)
+        print("flex reading: ", val)
         val_list.append(val)
     val_list.sort()
     print ("median reading: ", val_list[math.floor(len(val_list)/2)])
@@ -71,7 +72,7 @@ def read_compass(i2c_addr, duration, readings_per_median=1):
         # Status byte
         data = bus.read_byte(0x0C)
 
-        #time.sleep(0.5)
+        time.sleep(0.5)
 
         # Read data back from 0x4E(78), 7 bytes
         # Status, xMag msb, xMag lsb, yMag msb, yMag lsb, zMag msb, zMag lsb
@@ -92,9 +93,6 @@ def read_compass(i2c_addr, duration, readings_per_median=1):
             
         #heading = math.atan2(yMag, xMag) * 180 / math.pi
         
-        x_sum += xMag
-        y_sum += yMag
-        z_sum += zMag 
         # Debug
 #         print(data)
 #         print("Magnetice Field (x, y, z) = ", xMag, yMag, zMag)
@@ -102,10 +100,10 @@ def read_compass(i2c_addr, duration, readings_per_median=1):
 
         time.sleep(duration/ readings_per_median)
         #no_of_reading = no_of_reading - 1
-    x = x_sum/readings_per_median
-    y = y_sum/readings_per_median
-    z = z_sum/readings_per_median
-    return (x, y, z)
+    print("xMag: ",xMag)
+    print("yMag: ",yMag)
+    print("zMag: ",zMag)
+    return (xMag, yMag, zMag)
  
 
 # Setting mqtt connection
