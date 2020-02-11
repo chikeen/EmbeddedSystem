@@ -33,10 +33,10 @@ def read_flex (i2c_addr, duration, readings_per_median=3):
         val = int((abs(val - 9000) /7500) * 2100) #scaling sensor data
         #print ("flex reading: ", val)
         time.sleep(duration/readings_per_median)
-        print("flex reading: ", val)
+       # print("flex reading: ", val)
         val_list.append(val)
     val_list.sort()
-    print ("median reading: ", val_list[math.floor(len(val_list)/2)])
+   # print ("median reading: ", val_list[math.floor(len(val_list)/2)])
     return val_list[math.floor(len(val_list)/2)]
         
 
