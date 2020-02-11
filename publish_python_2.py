@@ -3,7 +3,7 @@ import time
 import paho.mqtt.client as mqtt
 import datetime
 import json
-import ssl
+# import ssl
 import math
 
 #setting up sensor and smBUS
@@ -27,6 +27,7 @@ def read_flex (i2c_addr, duration, no_of_reading):
     while(no_of_reading):
         val_swapped = bus.read_word_data(i2c_addr, 0x00)
         val = (val_swapped & 0xFF) <<8 | (val_swapped >>8)
+        val = int((abs(val - 9000) /7500) * 2100) #scaling sensor data
         print ("flex reading: ", val)
         time.sleep(duration/no_of_reading)
         no_of_reading = no_of_reading - 1
@@ -98,10 +99,10 @@ def read_compass(i2c_addr, duration, no_of_reading):
 
 # Setting mqtt connection
 client = mqtt.Client()
-client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",
-               keyfile="client.key", tls_version=ssl.PROTOCOL_TLSv1_2)
+# client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",
+#                keyfile="client.key", tls_version=ssl.PROTOCOL_TLSv1_2)
 
-client.connect("test.mosquitto.org", port=8884)
+client.connect("test.mosquitto.org", port=1883)
 
 
 mode = "Home" # or Music, Sports, Sleep
