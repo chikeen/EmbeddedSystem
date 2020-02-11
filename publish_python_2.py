@@ -11,7 +11,7 @@ bus = smbus.SMBus(1)
 i2c_addr_flex = 0x48 # our flex sensor slave address
 i2c_addr_compass = 0x0c # our compass sensor slave address
 
-def read_flex (i2c_addr, duration, no_of_reading):
+def read_flex (i2c_addr, duration, readings_per_median=3):
     #below are the 4 different kind of register in ADC1115 module
     status_reg = 0x00
     mode_reg = 0x01
@@ -24,21 +24,28 @@ def read_flex (i2c_addr, duration, no_of_reading):
     #this is to write to pointer register
     bus.write_byte(i2c_addr, 0)
 
-    while(no_of_reading):
+    val_list = []
+
+    for i in range(readings_per_median):
+        
         val_swapped = bus.read_word_data(i2c_addr, 0x00)
         val = (val_swapped & 0xFF) <<8 | (val_swapped >>8)
         val = int((abs(val - 9000) /7500) * 2100) #scaling sensor data
         print ("flex reading: ", val)
-        time.sleep(duration/no_of_reading)
-        no_of_reading = no_of_reading - 1
-        
-    return val
+        time.sleep(duration/readings_per_median)
+        val_list.append(val)
+    val_list.sort()
+    print ("median reading: ", val_list[floor(len(val_list)/2)])
+    return val_list[floor(len(val_list)/2)]
         
 
         
-def read_compass(i2c_addr, duration, no_of_reading):
-    
-    while(no_of_reading):
+def read_compass(i2c_addr, duration, readings_per_median=3):
+    x_sum = 0
+    y_sum = 0
+    z_sum = 0
+    for i in range(readings_per_median):
+
         # Select write register command, 0x60(96)
         # AH = 0x00, AL = 0x5C, GAIN_SEL = 5, Address register (0x00 << 2)
         config = [0x00, 0x5C, 0x00]
@@ -63,7 +70,7 @@ def read_compass(i2c_addr, duration, no_of_reading):
         # Status byte
         data = bus.read_byte(0x0C)
 
-        time.sleep(0.5)
+        #time.sleep(0.5)
 
         # Read data back from 0x4E(78), 7 bytes
         # Status, xMag msb, xMag lsb, yMag msb, yMag lsb, zMag msb, zMag lsb
@@ -82,18 +89,25 @@ def read_compass(i2c_addr, duration, no_of_reading):
         if zMag > 32767 :
             zMag -= 65536
             
-        heading = math.atan2(yMag, xMag) * 180 / math.pi
+        #heading = math.atan2(yMag, xMag) * 180 / math.pi
         
-
+        x_sum += xMag
+        y_sum += yMag
+        z_sum += zMag 
         # Debug
 #         print(data)
 #         print("Magnetice Field (x, y, z) = ", xMag, yMag, zMag)
 #         print(heading + 330)
 
-        time.sleep(duration/no_of_reading)
-        no_of_reading = no_of_reading - 1
-    
-    return (xMag, yMag, zMag)
+        time.sleep(duration/ readings_per_median)
+        #no_of_reading = no_of_reading - 1
+        print("xMag: ", xMag)
+        print("yMag: ", yMag)
+        print("zMag: ", zMag)
+    x = x_sum/readings_per_median
+    y = y_sum/readings_per_median
+    z = z_sum/readings_per_median
+    return (x, y, z)
         
  
 
@@ -103,6 +117,7 @@ client = mqtt.Client()
 #                keyfile="client.key", tls_version=ssl.PROTOCOL_TLSv1_2)
 
 client.connect("test.mosquitto.org", port=1883)
+client.publish("IC.embedded/Faraday", "HELLO")
 
 
 mode = "Home" # or Music, Sports, Sleep
@@ -110,8 +125,8 @@ mode = "Home" # or Music, Sports, Sleep
 
 while(True):
 
-    flex_val = read_flex(i2c_addr_flex, 1, 1) # reading 1 times in 1 sec
-    compass_val = read_compass(i2c_addr_compass, 1, 1) # reading 1 times in 1 sec
+    flex_val = read_flex(i2c_addr_flex, 1, 3) # reading 1 times in 1 sec
+    compass_val = read_compass(i2c_addr_compass, 1, 3) # reading 1 times in 1 sec
     
     
     if((compass_val[2] > 63 or compass_val[2] < 40) and mode is not "Sleep"):
