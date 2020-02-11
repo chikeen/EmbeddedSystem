@@ -35,8 +35,8 @@ def read_flex (i2c_addr, duration, readings_per_median=3):
         time.sleep(duration/readings_per_median)
         val_list.append(val)
     val_list.sort()
-    print ("median reading: ", val_list[floor(len(val_list)/2)])
-    return val_list[floor(len(val_list)/2)]
+    print ("median reading: ", val_list[math.floor(len(val_list)/2)])
+    return val_list[math.floor(len(val_list)/2)]
         
 
         
