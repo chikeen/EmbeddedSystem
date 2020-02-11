@@ -37,6 +37,7 @@ def read_flex (i2c_addr, duration, readings_per_median=3):
         val_list.append(val)
     val_list.sort()
    # print ("median reading: ", val_list[math.floor(len(val_list)/2)])
+    print(val_list[math.floor(len(val_list)/2)])
     return val_list[math.floor(len(val_list)/2)]
         
 
@@ -127,14 +128,14 @@ mode = "Home" # or Music, Sports, Sleep
 while(True):
 
     flex_val = read_flex(i2c_addr_flex, 0.5, 3) # reading 1 times in 1 sec
-    compass_val = read_compass(i2c_addr_compass, 0.7, 5) # reading 1 times in 1 sec
+    compass_val = read_compass(i2c_addr_compass, 0.6, 3) # reading 1 times in 1 sec
     
     
-    if((compass_val[2] > 63 or compass_val[2] < 40) and mode is not "Sleep"):
+    if((compass_val[2] > 72 or compass_val[2] < 35) and mode is not "Sleep"):
     #    print("Mode: ", mode, "-> Sleep, compass_val= ", compass_val)
         mode = "Sleep"
     
-    if((compass_val[2] <= 63 and compass_val[2] >= 40) and mode is "Sleep"):
+    if((compass_val[2] <= 72 and compass_val[2] >= 35) and mode is "Sleep"):
     #    print("Mode: ", mode, "-> Home, compass_val= ", compass_val)
         mode = "Home"
 
