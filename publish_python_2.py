@@ -31,7 +31,7 @@ def read_flex (i2c_addr, duration, readings_per_median=3):
         val_swapped = bus.read_word_data(i2c_addr, 0x00)
         val = (val_swapped & 0xFF) <<8 | (val_swapped >>8)
         val = int((abs(val - 9000) /7500) * 2100) #scaling sensor data
-        print ("flex reading: ", val)
+        #print ("flex reading: ", val)
         time.sleep(duration/readings_per_median)
         val_list.append(val)
     val_list.sort()
@@ -40,7 +40,8 @@ def read_flex (i2c_addr, duration, readings_per_median=3):
         
 
         
-def read_compass(i2c_addr, duration, readings_per_median=3):
+def read_compass(i2c_addr, duration, readings_per_median=1):
+    #KEEP READING PER MEDIAN TO 1 until you have support for angular wrap around (like robotics).
     x_sum = 0
     y_sum = 0
     z_sum = 0
@@ -101,14 +102,10 @@ def read_compass(i2c_addr, duration, readings_per_median=3):
 
         time.sleep(duration/ readings_per_median)
         #no_of_reading = no_of_reading - 1
-        print("xMag: ", xMag)
-        print("yMag: ", yMag)
-        print("zMag: ", zMag)
     x = x_sum/readings_per_median
     y = y_sum/readings_per_median
     z = z_sum/readings_per_median
     return (x, y, z)
-        
  
 
 # Setting mqtt connection
@@ -126,7 +123,7 @@ mode = "Home" # or Music, Sports, Sleep
 while(True):
 
     flex_val = read_flex(i2c_addr_flex, 0.25, 3) # reading 1 times in 1 sec
-    compass_val = read_compass(i2c_addr_compass, 0.25, 3) # reading 1 times in 1 sec
+    compass_val = read_compass(i2c_addr_compass, 0.1, 3) # reading 1 times in 1 sec
     
     
     if((compass_val[2] > 63 or compass_val[2] < 40) and mode is not "Sleep"):
