@@ -109,9 +109,6 @@ def read_compass(i2c_addr, duration, readings_per_median=3):
     x_list[math.floor(len(x_list)/2)]
 
         #no_of_reading = no_of_reading - 1
-    print("xMag: ",x)
-    print("yMag: ",y)
-    print("zMag: ",z)
     return (x_list[math.floor(len(x_list)/2)], y_list[math.floor(len(y_list)/2)], z_list[math.floor(len(z_list)/2)])
  
 
