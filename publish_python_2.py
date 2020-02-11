@@ -131,11 +131,11 @@ while(True):
     compass_val = read_compass(i2c_addr_compass, 0.6, 3) # reading 1 times in 1 sec
     
     
-    if((compass_val[2] > 83 or compass_val[2] < 35) and mode is not "Sleep"):
+    if((compass_val[2] > 83 or compass_val[2] < 10) and mode is not "Sleep"):
     #    print("Mode: ", mode, "-> Sleep, compass_val= ", compass_val)
         mode = "Sleep"
     
-    if((compass_val[2] <= 83 and compass_val[2] >= 35) and mode is "Sleep"):
+    if((compass_val[2] <= 83 and compass_val[2] >= 10) and mode is "Sleep"):
     #    print("Mode: ", mode, "-> Home, compass_val= ", compass_val)
         mode = "Home"
 
