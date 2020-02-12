@@ -3,12 +3,16 @@
 ## Quick Links
 
 1. Github repo for the Bamboo cross-platform app: https://github.com/zenasgram/Bamboo
-2. Official Website:
+2. Official Website: https://koi-sprout-xmz8.squarespace.com/
 
 
 ## Introduction
 
-...
+Simply download the app and place the adhesive posture sensor on your back. Using our app, you’ll be able to visualise how your posture has progressed throughout the day. You’ll also receive Panda Pokes, which notify you when you’ve been slouching for an extended period of time. 
+
+You can quickly gauge which of your activities are most harmful for your posture by tracking whether you are at home, playing a musical instrument, doing some sport or sleeping. These modes adjust the notification sensitivities so that you don’t get a Panda Poke when you’re fast asleep.
+
+By setting activity selection to Auto, the app will automatically set mode for you, in our current prototype our compass sensor switches between home and sleep mode on its own.
 
 
 ## Technical Details:
