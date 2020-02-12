@@ -33,6 +33,8 @@ These two slave sensor are then connected to the master Pi Zero via i2c communic
 ### Application
 Mobile App Git Link: https://github.com/zenasgram/Bamboo
 
+The application was built using Google's reactive programming language Flutter.
+
 #### Directory Layout
 
     .
