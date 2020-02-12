@@ -28,10 +28,36 @@ Besides the main sensor, a additional 3D magnetometer (MLX 90393) is used to tel
 These two slave sensor are then connected to the master Pi Zero via i2c communication. Pi Zero will handle the next step of preprocessing of raw sensor data and communication with application via Mqtt broker. 
 
 ### Connection (Mqtt broker)
-... TODO: chris
+... TODO: Chris
 
 ### Application
-... TODO: zenas
+Mobile App Git Link: https://github.com/zenasgram/Bamboo
+
+#### Directory Layout
+
+    .
+    ├── android                           # Android environment configuration files
+    ├── assets                            # 3D object source files
+    ├── images                            # Rendered png source files (Human & Bamboo Models)
+    ├── ios                               # iOS environment configuration files
+    ├── lib                               # Top library
+    │   ├── components            
+    │   │   └── rounded_button.dart       # Refactored code for registration/login button design
+    │   ├── models                 
+    │   │   ├── mqtt.dart                 # MQTT listening client code
+    │   │   └── simulator.dart            # Real-Time firebase code (used for data backup) + software data simulator
+    │   ├── screens                     
+    │   │   ├── home_screen.dart          # Code for primary UI screen (including the four modes: Home, Music, Sports, Sleep)
+    │   │   ├── login_screen.dart         # Code for login - includes Firebase authentication code
+    │   │   ├── registration_screen.dart  # Code for registration - includes Firebase authentication code
+    │   │   └── welcome_screen.dart       # Code for initial screen on application boot
+    │   │  
+    │   ├── main.dart                     # Main script that navigates to screens
+    │   └── constants.dart                # Source file that stores dictionaries (threshold, sensitivity map, etc.) and constants
+    ├── test
+    ├── pubspec.yaml                      # Package files (firebase, firestore, syncfusion charts, etc.)
+    └── README.md
+
 
 
 ## Credits:
