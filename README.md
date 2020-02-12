@@ -60,6 +60,7 @@ The application was built using Google's reactive programming language Flutter.
     ├── pubspec.yaml                      # Package files (firebase, firestore, syncfusion charts, etc.)
     └── README.md
 
+![Wireframe Prototyping](Wireframes.png)
 
 ![UI Screens](UI_Screens.png)
 
