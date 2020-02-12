@@ -61,7 +61,7 @@ The application was built using Google's reactive programming language Flutter.
     └── README.md
 
 
-![UI Screens](UI_Screens.png)
+![UI Screens](UI Screens.png)
 
 
 ## Credits:
