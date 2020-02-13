@@ -28,7 +28,10 @@ Besides the main sensor, a additional 3D magnetometer (MLX 90393) is used to tel
 These two slave sensor are then connected to the master Pi Zero via i2c communication. Pi Zero will handle the next step of preprocessing of raw sensor data and communication with application via Mqtt broker. 
 
 ### Connection (Mqtt broker)
-... TODO: Chris
+When you log on through our app your data is stored on Firebase, a secure and encrypted database provided by Google. The Bamboo posture sensor sends data directly to your app using the MQTT protocol and Mosquitto as broker.
+
+The app then stores the posture readings in a Realtime database, which allows us to display posture readings from months ago. This also allows cross device compatibility as values displayed on our graph are only those that are read back from the database.
+
 
 ### Application
 Mobile App Git Link: https://github.com/zenasgram/Bamboo
